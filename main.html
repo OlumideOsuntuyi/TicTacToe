@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+
+    <div class="top">
+        <div class="title">
+            TICTACTOE
+        </div>
+        <nav>
+            <a href="">Menu</a>
+            <a href="">Games</a>
+            <a href="">Tutorials</a>
+            <a href="https://olumideosuntuyi.github.io/Portfolio/main.html">Portfolio</a>
+            <a href="">Search</a>
+        </nav>
+    </div>
+
+    <div class="game">
+        <div class="game-board">
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+        </div>
+
+        <div class="scoreboard">
+            <div class="scores">
+                <div class="score-cell">
+                    <div>X : <span id="xWins">0</span></div>
+                </div>
+                <div class="score-cell">
+                    <div>O : <span id="oWins">0</span></div>
+                </div>
+            </div>
+
+            <div class="timer-board">
+                <div class="timer-fill">
+                    <div><span id="timer">0</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="winning-message" id="winningMessage">
+        <div data-winning-message-text></div>
+        <button id="restartButton">Restart</button>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
