@@ -5,7 +5,6 @@ const winningMessageTextElement = document.querySelector('[data-winning-message-
 const restartButton = document.getElementById('restartButton');
 const xWinsElement = document.getElementById('xWins');
 const oWinsElement = document.getElementById('oWins');
-const timerElement = document.getElementById('timer');
 const X_CLASS = 'x';
 const CIRCLE_CLASS = 'circle';
 const WINNING_COMBINATIONS = [
@@ -23,7 +22,6 @@ let circleTurn = false;
 let xWins = 0;
 let oWins = 0;
 let timer;
-let timeElapsed;
 let computerChoice = 0;
 
 startGame();
@@ -32,13 +30,6 @@ restartButton.addEventListener('click', startGame);
 
 function startGame() 
 {
-    timeElapsed = 0;
-    clearInterval(timer);
-    timer = setInterval(() => 
-    {
-        updateTimer();
-    }, 1000);
-
     // clear cell content and listeners
     cells.forEach(cell => 
     {
@@ -51,7 +42,6 @@ function startGame()
     swapTurns();
     setBoardHoverClass();
     winningMessageElement.classList.remove('show');
-    updateTimer();
 
     if(circleTurn)
     {
@@ -182,14 +172,6 @@ function updateScore(winner)
         oWins++;
         oWinsElement.textContent = oWins;
     }
-}
-
-function updateTimer() 
-{
-    const minutes = Math.floor(timeElapsed / 60);
-    const seconds = timeElapsed % 60;
-    timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    timeElapsed++;
 }
 
 function getRandomInt(min, max) 
