@@ -3,6 +3,8 @@ html, body{
 }
 
 body {
+    
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -21,7 +23,6 @@ body {
 
 .cell:hover
 {
-    
     background-color: rgb(127, 209, 80);
     transition: background-color 0.5s ease;
 }
