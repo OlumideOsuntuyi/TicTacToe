@@ -19,11 +19,12 @@ const WINNING_COMBINATIONS = [
     [2, 4, 6]
 ];
 
-let circleTurn;
+let circleTurn = false;
 let xWins = 0;
 let oWins = 0;
 let timer;
 let timeElapsed;
+let computerChoice = 0;
 
 startGame();
 
@@ -38,6 +39,7 @@ function startGame()
         updateTimer();
     }, 1000);
 
+    // clear cell content and listeners
     cells.forEach(cell => 
     {
         cell.classList.remove(X_CLASS);
@@ -45,18 +47,34 @@ function startGame()
         cell.removeEventListener('click', handleClick);
         cell.addEventListener('click', handleClick, { once: true });
     });
-    
+
     swapTurns();
     setBoardHoverClass();
     winningMessageElement.classList.remove('show');
     updateTimer();
+
+    if(circleTurn)
+    {
+        computerPlay();
+    }
 }
 
 function handleClick(e) 
 {
     const cell = e.target;
     const currentClass = circleTurn ? CIRCLE_CLASS : X_CLASS;
-    placeMark(cell, currentClass);
+    const canPlace = !hasAny(cell);
+
+    if(canPlace)
+    {
+        placeMark(cell, currentClass);
+        handleChoice();
+    }
+}
+
+function handleChoice()
+{
+    const currentClass = circleTurn ? CIRCLE_CLASS : X_CLASS;
     if (checkWin(currentClass)) 
     {
         endGame(false);
@@ -70,6 +88,11 @@ function handleClick(e)
     {
         swapTurns();
         setBoardHoverClass();
+
+        if(circleTurn)
+        {
+            computerPlay();
+        }
     }
 }
 
@@ -101,6 +124,31 @@ function placeMark(cell, currentClass)
     cell.classList.add(currentClass);
 }
 
+function hasAnyAt(cellIndex)
+{
+    return cells[cellIndex].classList.contains(X_CLASS) || cells[cellIndex].classList.contains(CIRCLE_CLASS);
+}
+
+function hasAny(cell)
+{
+    cell.classList.contains(X_CLASS) || cell.classList.contains(CIRCLE_CLASS);
+}
+
+// if no winner or tie, computer should play randomly
+function computerPlay()
+{
+    // randomly select a free index
+    do
+    {
+        computerChoice = getRandomInt(0, 8);
+    }while(hasAnyAt(computerChoice));
+
+    const cell = cells[computerChoice];
+    const currentClass = circleTurn ? CIRCLE_CLASS : X_CLASS;
+    placeMark(cell, currentClass);
+    handleChoice();
+}
+
 function swapTurns() 
 {
     circleTurn = !circleTurn;
@@ -116,7 +164,8 @@ function setBoardHoverClass() {
     }
 }
 
-function checkWin(currentClass) {
+function checkWin(currentClass) 
+{
     return WINNING_COMBINATIONS.some(combination => {
         return combination.every(index => {
             return cells[index].classList.contains(currentClass);
@@ -124,7 +173,8 @@ function checkWin(currentClass) {
     });
 }
 
-function updateScore(winner) {
+function updateScore(winner) 
+{
     if (winner === X_CLASS) {
         xWins++;
         xWinsElement.textContent = xWins;
@@ -134,9 +184,17 @@ function updateScore(winner) {
     }
 }
 
-function updateTimer() {
+function updateTimer() 
+{
     const minutes = Math.floor(timeElapsed / 60);
     const seconds = timeElapsed % 60;
     timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
     timeElapsed++;
+}
+
+function getRandomInt(min, max) 
+{
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }

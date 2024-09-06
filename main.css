@@ -40,14 +40,24 @@ body {
     transition: background-color 0.5s ease;
 }
 
+.cell {
+    color:white;
+    transition: color 1s ease-in-out;
+
+    font-size: 50px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
 .cell.x::before {
     content: 'X';
     color: #ff0000;
+    transition: color 1s ease-in-out;
 }
 
 .cell.circle::before {
     content: 'O';
     color: #0000ff;
+    transition: color 1s ease-in-out;
 }
 
 .winning-message {
