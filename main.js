@@ -54,8 +54,9 @@ function handleClick(e)
     const cell = e.target;
     const currentClass = circleTurn ? CIRCLE_CLASS : X_CLASS;
     const canPlace = !hasAny(cell);
+    const notOver = !isOver();
 
-    if(canPlace)
+    if(canPlace && notOver)
     {
         placeMark(cell, currentClass);
         handleChoice();
@@ -100,6 +101,16 @@ function endGame(draw)
     winningMessageElement.classList.add('show');
 }
 
+function placeMark(cell, currentClass) 
+{
+    cell.classList.add(currentClass);
+}
+
+function isOver()
+{
+    return winningMessageElement.classList.contains('show');
+}
+
 function isDraw() 
 {
     // returns true when all cells are occupied - tie situation
@@ -109,19 +120,14 @@ function isDraw()
     });
 }
 
-function placeMark(cell, currentClass) 
-{
-    cell.classList.add(currentClass);
-}
-
 function hasAnyAt(cellIndex)
 {
-    return cells[cellIndex].classList.contains(X_CLASS) || cells[cellIndex].classList.contains(CIRCLE_CLASS);
+    return hasAny(cells[cellIndex]);
 }
 
 function hasAny(cell)
 {
-    cell.classList.contains(X_CLASS) || cell.classList.contains(CIRCLE_CLASS);
+    return cell.classList.contains(X_CLASS) || cell.classList.contains(CIRCLE_CLASS);
 }
 
 // if no winner or tie, computer should play randomly
