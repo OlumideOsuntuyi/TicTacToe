@@ -196,3 +196,18 @@ body {
     width: 45%;
 }
 
+#copyright p
+  {
+    font-size: 12px;
+
+    text-align: center;
+    padding-left: 10px; padding-right: 10px;
+  }
+
+  #copyright
+  {
+    background-color: rgba(27, 27, 27, 0.932);
+    width: 100%;
+    bottom: 0;
+    position: fixed;
+  }
