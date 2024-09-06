@@ -44,20 +44,32 @@ body {
     color:white;
     transition: color 1s ease-in-out;
 
-    font-size: 50px;
+    font-size: 0px;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
+
+    transition: font-size 0.4s ease;
+}
+
+.cell.x
+{
+    font-size: 50px;
+    transition: font-size 0.4s ease;
+}
+
+.cell.circle
+{
+    font-size: 50px;
+    transition: font-size 0.4s ease;
 }
 
 .cell.x::before {
     content: 'X';
     color: #ff0000;
-    transition: color 1s ease-in-out;
 }
 
 .cell.circle::before {
     content: 'O';
     color: #0000ff;
-    transition: color 1s ease-in-out;
 }
 
 .winning-message {
@@ -182,46 +194,5 @@ body {
     border-color: rgba(0, 0, 0, 0);
     border-radius: 5px;
     width: 45%;
-}
-
-.scoreboard .timer-board
-{
-    background-color: rgb(39, 38, 38);
-    border-style: none;
-    border-radius: 8px;
-
-    width: 100%;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    padding-top: 8px; padding-bottom: 8px;
-    padding-left: 5px; padding-right: 5px;
-}
-
-.timer-board .timer-fill
-{
-    width: 100%; height: 100%;
-    background-color: rgb(255, 255, 255);
-    border-style: solid;
-}
-
-.timer-fill div
-{
-    padding: 2px;
-    text-align: center;
-
-    display: flex;
-    flex-direction: center;
-    justify-content: center;
-    align-items: center;
-}
-
-.timer-board #timer
-{
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 30px;
-    color: rgb(228, 56, 56);
 }
 
