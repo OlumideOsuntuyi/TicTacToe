@@ -24,12 +24,15 @@ let oWins = 0;
 let timer;
 let computerChoice = 0;
 
+const BOARD = new Board();
+
 startGame();
 
 restartButton.addEventListener('click', startGame);
 
 function startGame() 
 {
+    BOARD.reset();
     // clear cell content and listeners
     cells.forEach(cell => 
     {
@@ -39,7 +42,6 @@ function startGame()
         cell.addEventListener('click', handleClick, { once: true });
     });
 
-    swapTurns();
     setBoardHoverClass();
     winningMessageElement.classList.remove('show');
 
@@ -66,12 +68,12 @@ function handleClick(e)
 function handleChoice()
 {
     const currentClass = circleTurn ? CIRCLE_CLASS : X_CLASS;
-    if (checkWin(currentClass)) 
+    if (BOARD._isOver) 
     {
         endGame(false);
         updateScore(currentClass);
     } 
-    else if (isDraw()) 
+    else if (BOARD.ply == 9) 
     {
         endGame(true);
     } 
@@ -80,7 +82,7 @@ function handleChoice()
         swapTurns();
         setBoardHoverClass();
 
-        if(circleTurn)
+        if(BOARD.isO)
         {
             computerPlay();
         }
@@ -101,9 +103,17 @@ function endGame(draw)
     winningMessageElement.classList.add('show');
 }
 
+function computerPlay()
+{
+    let bestMove = BoardSearch.getBestMove(BOARD.clone());
+    placeMark(cells[bestMove], BOARD.isX ? X_CLASS : CIRCLE_CLASS);
+    handleChoice();
+}
+
 function placeMark(cell, currentClass) 
 {
     cell.classList.add(currentClass);
+    BOARD.makeMove(Array.from(cells).indexOf(cell));
 }
 
 function isOver()
@@ -128,21 +138,6 @@ function hasAnyAt(cellIndex)
 function hasAny(cell)
 {
     return cell.classList.contains(X_CLASS) || cell.classList.contains(CIRCLE_CLASS);
-}
-
-// if no winner or tie, computer should play randomly
-function computerPlay()
-{
-    // randomly select a free index
-    do
-    {
-        computerChoice = getRandomInt(0, 8);
-    }while(hasAnyAt(computerChoice));
-
-    const cell = cells[computerChoice];
-    const currentClass = circleTurn ? CIRCLE_CLASS : X_CLASS;
-    placeMark(cell, currentClass);
-    handleChoice();
 }
 
 function swapTurns() 
@@ -180,9 +175,3 @@ function updateScore(winner)
     }
 }
 
-function getRandomInt(min, max) 
-{
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
