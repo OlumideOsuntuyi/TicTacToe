@@ -18,7 +18,6 @@ const WINNING_COMBINATIONS = [
     [2, 4, 6]
 ];
 
-let circleTurn = false;
 let xWins = 0;
 let oWins = 0;
 let timer;
@@ -44,17 +43,12 @@ function startGame()
 
     setBoardHoverClass();
     winningMessageElement.classList.remove('show');
-
-    if(circleTurn)
-    {
-        computerPlay();
-    }
 }
 
 function handleClick(e) 
 {
     const cell = e.target;
-    const currentClass = circleTurn ? CIRCLE_CLASS : X_CLASS;
+    const currentClass = BOARD.isX ? X_CLASS : CIRCLE_CLASS;
     const canPlace = !hasAny(cell);
     const notOver = !isOver();
 
@@ -67,7 +61,7 @@ function handleClick(e)
 
 function handleChoice()
 {
-    const currentClass = circleTurn ? CIRCLE_CLASS : X_CLASS;
+    const currentClass = BOARD.isX ? X_CLASS : CIRCLE_CLASS;
     if (BOARD._isOver) 
     {
         endGame(false);
@@ -79,9 +73,7 @@ function handleChoice()
     } 
     else 
     {
-        swapTurns();
         setBoardHoverClass();
-
         if(BOARD.isO)
         {
             computerPlay();
@@ -98,7 +90,7 @@ function endGame(draw)
     } 
     else 
     {
-        winningMessageTextElement.innerText = `${circleTurn ? "O's" : "X's"} Wins!`;
+        winningMessageTextElement.innerText = `${BOARD.isO ? "X's" : "O's"} Wins!`; // previous player won
     }
     winningMessageElement.classList.add('show');
 }
@@ -121,15 +113,6 @@ function isOver()
     return winningMessageElement.classList.contains('show');
 }
 
-function isDraw() 
-{
-    // returns true when all cells are occupied - tie situation
-    return [...cells].every(cell => 
-    {
-        return cell.classList.contains(X_CLASS) || cell.classList.contains(CIRCLE_CLASS);
-    });
-}
-
 function hasAnyAt(cellIndex)
 {
     return hasAny(cells[cellIndex]);
@@ -140,17 +123,15 @@ function hasAny(cell)
     return cell.classList.contains(X_CLASS) || cell.classList.contains(CIRCLE_CLASS);
 }
 
-function swapTurns() 
+function setBoardHoverClass() 
 {
-    circleTurn = !circleTurn;
-}
-
-function setBoardHoverClass() {
     board.classList.remove(X_CLASS);
     board.classList.remove(CIRCLE_CLASS);
-    if (circleTurn) {
+    if (BOARD.isX) 
+    {
         board.classList.add(CIRCLE_CLASS);
-    } else {
+    } else 
+    {
         board.classList.add(X_CLASS);
     }
 }
