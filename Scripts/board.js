@@ -19,6 +19,10 @@ class Board
     {
         return this._isOver;
     }
+    get winnerClass()
+    {
+        return isOver ? (isX ? CIRCLE_CLASS : X_CLASS) : "";
+    }
 
     reset()
     {

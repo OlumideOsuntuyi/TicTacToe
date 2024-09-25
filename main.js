@@ -61,11 +61,10 @@ function handleClick(e)
 
 function handleChoice()
 {
-    const currentClass = BOARD.isX ? X_CLASS : CIRCLE_CLASS;
     if (BOARD._isOver) 
     {
         endGame(false);
-        updateScore(currentClass);
+        updateScore(BOARD.WINNER_CLASS);
     } 
     else if (BOARD.ply == 9) 
     {
@@ -136,18 +135,9 @@ function setBoardHoverClass()
     }
 }
 
-function checkWin(currentClass) 
-{
-    return WINNING_COMBINATIONS.some(combination => {
-        return combination.every(index => {
-            return cells[index].classList.contains(currentClass);
-        });
-    });
-}
-
 function updateScore(winner) 
 {
-    if (winner === X_CLASS) {
+    if (BOARD.WINNER_CLASS === X_CLASS) {
         xWins++;
         xWinsElement.textContent = xWins;
     } else {
