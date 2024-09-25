@@ -97,7 +97,12 @@ class Board
         let totalScore = 0;
         WINNING_COMBINATIONS.forEach(list => 
         {
-            totalScore += this.scoreCombination(list);
+            let score = this.scoreCombination(list);
+            totalScore += score;
+            if(score >= 3 || score <= -3)
+            {
+                totalScore += score * 10;
+            }
         });
         return totalScore;
     }
